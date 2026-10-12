@@ -37,6 +37,7 @@ async function chargerVideos() {
       return;
     }
     liste.replaceChildren(...videos.map(creerFiche));
+    creerEventail(videos);
   } catch (erreur) {
     console.error("videos.json :", erreur);
     liste.innerHTML =
@@ -57,12 +58,52 @@ function lireFormat(formato) {
   return { ratio, orientation, label };
 }
 
-function creerFiche(video) {
+// L'éventail de la page d'accueil : les vidéos verticales en cartes "story".
+// Chaque carte est un lien vers la vidéo correspondante plus bas.
+function creerEventail(videos) {
+  const eventail = document.getElementById("eventail");
+  if (!eventail) return;
+  const cartes = videos
+    .map((video, i) => ({ video, i }))
+    .filter(({ video }) => lireFormat(video.formato).orientation === "vertical")
+    .slice(0, 4)
+    .map(({ video, i }, n, tout) => {
+      const lien = document.createElement("a");
+      lien.className = "fan-card";
+      lien.href = `#travail-${i + 1}`;
+      lien.setAttribute("aria-label", `Voir : ${video.titulo}`);
+      // Position dans l'éventail : de -1 (gauche) à 1 (droite)
+      const pos = tout.length > 1 ? (n / (tout.length - 1)) * 2 - 1 : 0;
+      lien.style.setProperty("--pos", pos.toFixed(2));
+      lien.style.setProperty("--n", n);
+      const img = document.createElement("img");
+      img.src = video.miniatura;
+      img.alt = "";
+      img.width = 180;
+      img.height = 320;
+      img.decoding = "async";
+      lien.append(img);
+      return lien;
+    });
+  eventail.replaceChildren(...cartes);
+  requestAnimationFrame(() => eventail.classList.add("is-dealt"));
+}
+
+// Le bandeau défilant : on duplique son contenu pour une boucle sans coupure
+const piste = document.querySelector(".ticker-track");
+if (piste) piste.append(...[...piste.children].map((n) => n.cloneNode(true)));
+
+function creerFiche(video, index) {
   const format = lireFormat(video.formato);
   const enBoucle = video.modo === "bucle";
 
   const article = document.createElement("article");
   article.className = "work";
+  article.id = `travail-${index + 1}`;
+  // Vidéo sur fond noir (ex. incrustation) : le noir devient transparent
+  if (video.transparente) article.dataset.transparente = "oui";
+  // Image utilisée pour le halo de couleur derrière la vidéo (adresse complète)
+  article.style.setProperty("--poster", `url("${new URL(video.miniatura, location.href).href}")`);
   article.dataset.orientation = format.orientation;
   article.dataset.modo = video.modo;
   article.style.setProperty("--ratio", format.ratio);

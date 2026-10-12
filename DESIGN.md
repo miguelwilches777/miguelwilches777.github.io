@@ -208,3 +208,18 @@ Lista `dl` en rejilla de dos columnas: `dt` (rol, gris, a la derecha) y `dd` (va
 - **Don't** recortar vídeos (`object-fit: cover`) ni forzar una proporción distinta de la real.
 - **Don't** añadir más animaciones de entrada: solo los créditos de cada trabajo aparecen con suavidad; nada más se anima al hacer scroll.
 - **Don't** poner etiquetas pequeñas en mayúsculas encima de los títulos; las mayúsculas espaciadas son solo para títulos de sección, la línea de rol y las acciones.
+
+## Color y vida (añadido después de la primera versión)
+
+Miguel pidió una página menos vacía, más visual y que represente las redes sociales. El negro sigue siendo la base; el color viene **de sus propios vídeos**.
+
+- **Grano de película:** ruido muy suave (7 %) sobre el fondo negro, en `body::before`. Nunca encima de los vídeos.
+- **Abanico de *stories* en la portada:** hasta 4 vídeos verticales de `videos.json` como cartas (radio 14px, rotación según `--pos`). Cada carta es un enlace a su vídeo. Se reparten una vez al cargar (700ms, `--ease-out`, 80ms entre cartas).
+- **Halo de color:** detrás de cada vídeo, su miniatura muy desenfocada (`blur 56px`, `saturate 1.7`, opacidad 0.5). Sube a 0.9 cuando el vídeo suena.
+- **Cinta de especialidades:** texto que pasa solo (40 s por vuelta), alternando Bodoni cursiva grande y Hanken en mayúsculas espaciadas, separados por puntos de color. Se para al pasar el ratón y no se mueve con "reducir movimiento".
+- **Colores de acento** (solo para puntos y detalles pequeños, nunca para texto largo ni fondos grandes):
+  - `--rose` #ff6fae (Origine)
+  - `--ciel` #6fb6ff (cielo de "Sur le rythme")
+  - `--vert` #7fd49a (Green Earth)
+  - `--ambre` #ffb547 (focos de Nathan Pellerin)
+- **Vídeos con fondo negro** (`"transparente": true`): el negro se funde con la página (`mix-blend-mode: screen`) y no llevan halo.

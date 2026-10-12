@@ -11,6 +11,12 @@
   --gris: #a3a097;            /* texte secondaire (contraste 8:1 sur noir) */
   --gris-fonce: #2b2a27;      /* fonds de chargement, séparateurs */
 
+  /* Couleurs tirées des vidéos (points du bandeau) */
+  --rose: #ff6fae;            /* Origine */
+  --ciel: #6fb6ff;            /* ciel de "Sur le rythme" */
+  --vert: #7fd49a;            /* Green Earth Digital */
+  --ambre: #ffb547;           /* projecteurs de Nathan Pellerin */
+
   /* Deux voix : une serif de titre de film (Bodoni) + une sans lisible (Hanken) */
   --titre: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
   --police: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
@@ -42,7 +48,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--noir);
+  background: transparent;     /* le noir vient de <html> : le grain passe entre les deux */
   color: var(--blanc);
   font-family: var(--police);
   font-size: 1.0625rem;
@@ -353,6 +359,7 @@ body.lights-down .opening,
 body.lights-down .section-title,
 body.lights-down .tools,
 body.lights-down .contact,
+body.lights-down .ticker,
 body.lights-down .topbar { opacity: 0.12; }
 
 .opening, .section-title, .tools, .contact {
@@ -454,4 +461,157 @@ a, button, video { touch-action: manipulation; }
   }
   .work[data-orientation="vertical"]:nth-child(even) .credits dt { text-align: right; }
   .work[data-orientation="vertical"]:nth-child(even) .credits dd { text-align: right; }
+}
+
+/* =========================================================
+   14. Couleur et vie : grain, éventail, halo, bandeau
+   ========================================================= */
+
+/* a) Grain de pellicule sur le fond noir (jamais sur les vidéos) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 1.2 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+}
+
+/* b) L'éventail : les vidéos verticales en cartes "story" */
+.fan {
+  --carte: clamp(5.75rem, 24vw, 10.5rem);   /* largeur d'une carte */
+  --ecart: clamp(4.5rem, 21vw, 12rem);      /* écart entre les cartes */
+  position: relative;
+  width: 100%;
+  max-width: 44rem;
+  height: calc(var(--carte) * 16 / 9 + 2.5rem);
+  margin-top: 2.5rem;
+}
+
+.fan-card {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: var(--carte);
+  aspect-ratio: 9 / 16;
+  border-radius: 14px;
+  overflow: hidden;
+  outline: 1px solid rgb(242 240 234 / 0.14);
+  outline-offset: -1px;
+  box-shadow: 0 1.5rem 3rem -1rem rgb(0 0 0 / 0.9);
+  transform-origin: 50% 130%;
+  transform:
+    translateX(-50%)
+    translateX(calc(var(--pos) * var(--ecart)))
+    rotate(calc(var(--pos) * 9deg));
+  transition: transform 300ms var(--ease-out);
+}
+.fan-card img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Les cartes se distribuent une fois, à l'arrivée */
+.fan.is-dealt .fan-card {
+  animation: distribuer 700ms var(--ease-out) both;
+  animation-delay: calc(var(--n) * 80ms + 150ms);
+}
+@keyframes distribuer {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(2.5rem) rotate(0deg);
+  }
+}
+
+@media (hover: hover) {
+  .fan-card:hover {
+    transform:
+      translateX(-50%)
+      translateX(calc(var(--pos) * var(--ecart)))
+      translateY(-0.875rem)
+      rotate(calc(var(--pos) * 4deg));
+    z-index: 5;
+  }
+}
+.fan-card:active { scale: 0.97; }
+
+/* c) Halo : la vidéo éclaire le noir avec ses propres couleurs */
+.works-list { overflow-x: clip; padding-block: 2rem; }
+
+.frame { isolation: isolate; }
+.frame::before {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  z-index: -1;
+  pointer-events: none;
+  background: var(--poster) center / cover no-repeat;
+  filter: blur(56px) saturate(1.7);
+  opacity: 0.5;
+  transition: opacity 700ms var(--ease-out);
+}
+.work.is-playing .frame::before { opacity: 0.9; }   /* la lumière monte pendant la lecture */
+
+/* d) Bandeau défilant des spécialités */
+.ticker {
+  overflow: hidden;
+  padding: 1.5rem 0;
+  margin: 1rem 0 3rem;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 12%, #000 88%, transparent);
+  transition: opacity 700ms var(--ease-out);
+}
+.ticker-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: defiler 40s linear infinite;
+}
+.ticker-track > * { margin-right: 1.5rem; flex: none; }
+.ticker:hover .ticker-track { animation-play-state: paused; }
+
+@keyframes defiler {
+  to { transform: translateX(-50%); }
+}
+
+.t-serif {
+  font-family: var(--titre);
+  font-style: italic;
+  font-size: clamp(1.75rem, 5.5vw, 3.25rem);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+.t-caps {
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--gris);
+  white-space: nowrap;
+}
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+}
+.d1 { background: var(--rose); }
+.d2 { background: var(--ciel); }
+.d3 { background: var(--vert); }
+.d4 { background: var(--ambre); }
+
+@media (prefers-reduced-motion: reduce) {
+  .ticker-track { animation: none; }
+  .fan.is-dealt .fan-card { animation: none; }
+}
+
+/* e) Vidéos sur fond noir ("transparente": true dans videos.json) :
+   le noir disparaît (mode de fusion "écran", comme dans After Effects) */
+.work[data-transparente] .frame { background: transparent; isolation: auto; }
+.work[data-transparente] .frame::before { display: none; }   /* pas de halo : la vidéo flotte seule */
+.work[data-transparente] .frame video {
+  background: transparent;
+  mix-blend-mode: screen;
 }

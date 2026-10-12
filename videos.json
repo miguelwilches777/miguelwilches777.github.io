@@ -24,7 +24,8 @@
     "tipo": "Animation de logo",
     "descripcion": "Le logo Origine se transforme en téléphone qui présente le site et le compte Instagram @origine.petcare.",
     "formato": "2:3",
-    "modo": "bucle"
+    "modo": "bucle",
+    "transparente": true
   },
   {
     "archivo": "media/origine-spot-ia.mp4",

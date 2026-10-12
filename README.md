@@ -82,6 +82,7 @@ Abre `videos.json` con el Bloc de notas o VS Code. Verás una lista de "fichas",
 | `descripcion` | una frase en francés |
 | `formato` | `9:16` vertical (TikTok, Reels) · `16:9` horizontal (YouTube) · `1:1` cuadrado · `4:5` Instagram |
 | `modo` | `"sonido"` = con reproductor y sonido · `"bucle"` = se reproduce solo, sin sonido, en bucle |
+| `transparente` | *(opcional)* pon `"transparente": true` si el vídeo tiene **fondo negro** (por ejemplo un logo incrustado): el negro desaparece y el vídeo flota sobre la página. Si no lo necesitas, no lo pongas. |
 
 ⚠️ **Las comas:** entre una ficha y la siguiente va una coma `},`. La **última** ficha de la lista termina en `}` **sin coma**. Las comillas `"` son obligatorias. Si algo de esto falla, la web muestra «Les vidéos n’ont pas pu être chargées». En ese caso revisa las comas.
 
