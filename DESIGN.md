@@ -147,7 +147,7 @@ El script lee `formato` en `videos.json` (ej. `"9:16"`) y decide la orientación
 - **Horizontal en bucle** (logos, títulos): más pequeño, hasta 44rem y 70% del alto. Los bucles nunca deben verse más grandes que los vídeos con sonido.
 - **Cuadrado:** hasta 40rem y 72% del alto.
 - Debajo del vídeo, siempre: título (Bodoni cursiva) → descripción (gris) → créditos "Type | Format" (+ "Boucle | Mettre en pause" si es bucle).
-- **En ordenador (≥ 64rem / 1024px), los verticales pasan a dos columnas** alrededor del eje central: el vídeo a un lado y su texto al otro, alternando (impar: vídeo a la izquierda; par: vídeo a la derecha, texto alineado a la derecha). Los horizontales siguen centrados con el texto debajo. En móvil todo queda en una sola columna centrada.
+- **En ordenador (≥ 64rem / 1024px), los verticales pasan a dos columnas**: el vídeo y su texto se centran cada uno en su mitad de pantalla (no pegados al eje), con títulos grandes (hasta 4.5rem). Alternan (impar: vídeo a la izquierda; par: vídeo a la derecha, texto alineado a la derecha). Los horizontales siguen centrados con el texto debajo. En móvil todo queda en una sola columna centrada.
 
 ## Elevation & Depth
 
