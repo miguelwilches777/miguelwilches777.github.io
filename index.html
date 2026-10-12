@@ -30,6 +30,12 @@
     <a href="#contact" class="topbar-link">Contact</a>
   </header>
 
+  <!-- Côtés (ordinateur) : règle de timecode à gauche, piste de clips à droite -->
+  <div class="rail rail-tc" aria-hidden="true">
+    <div class="playhead"><span id="timecode">00:00:00:00</span></div>
+  </div>
+  <nav class="rail rail-clips" id="pistes" aria-label="Accès rapide aux vidéos"></nav>
+
   <main>
     <!-- 1. Présentation -->
     <section class="opening" aria-labelledby="nom">

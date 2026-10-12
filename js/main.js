@@ -38,6 +38,7 @@ async function chargerVideos() {
     }
     liste.replaceChildren(...videos.map(creerFiche));
     creerEventail(videos);
+    creerPistes(videos);
   } catch (erreur) {
     console.error("videos.json :", erreur);
     liste.innerHTML =
@@ -88,6 +89,72 @@ function creerEventail(videos) {
   eventail.replaceChildren(...cartes);
   requestAnimationFrame(() => eventail.classList.add("is-dealt"));
 }
+
+// ---------- Les côtés : la page comme une timeline ----------
+const COULEURS = ["var(--rose)", "var(--ciel)", "var(--vert)", "var(--ambre)"];
+const DUREE_TOTALE = 180; // secondes affichées par le timecode sur toute la page
+const IMAGES_PAR_SECONDE = 25;
+
+// Piste de droite : un clip coloré par vidéo, placé comme la vidéo dans la page
+function creerPistes(videos) {
+  const piste = document.getElementById("pistes");
+  if (!piste) return;
+  const clips = videos.map((video, i) => {
+    const clip = document.createElement("a");
+    clip.className = "clip";
+    clip.href = `#travail-${i + 1}`;
+    clip.dataset.nom = video.titulo;
+    clip.setAttribute("aria-label", `Aller à : ${video.titulo}`);
+    clip.style.setProperty("--couleur", COULEURS[i % COULEURS.length]);
+    return clip;
+  });
+  piste.replaceChildren(...clips);
+  placerClips();
+  suivreDefilement();
+}
+
+// Position de chaque clip = position de sa vidéo dans la hauteur de la page
+function placerClips() {
+  const hauteur = document.documentElement.scrollHeight;
+  document.querySelectorAll(".clip").forEach((clip, i) => {
+    const travail = document.getElementById(`travail-${i + 1}`);
+    if (!travail) return;
+    const haut = travail.offsetTop;
+    clip.style.setProperty("--debut", (haut / hauteur).toFixed(4));
+    clip.style.setProperty("--duree", (travail.offsetHeight / hauteur).toFixed(4));
+  });
+}
+
+// Tête de lecture + timecode + clip actif, mis à jour au défilement
+let enAttente = false;
+function suivreDefilement() {
+  if (enAttente) return;
+  enAttente = true;
+  requestAnimationFrame(() => {
+    enAttente = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    const progres = max > 0 ? Math.min(1, scrollY / max) : 0;
+    document.querySelector(".playhead")?.style.setProperty("--progress", progres.toFixed(4));
+
+    // Timecode HH:MM:SS:II (25 images par seconde)
+    const images = Math.round(progres * DUREE_TOTALE * IMAGES_PAR_SECONDE);
+    const s = Math.floor(images / IMAGES_PAR_SECONDE);
+    const deux = (n) => String(n).padStart(2, "0");
+    const tc = document.getElementById("timecode");
+    if (tc) tc.textContent = `00:${deux(Math.floor(s / 60))}:${deux(s % 60)}:${deux(images % IMAGES_PAR_SECONDE)}`;
+
+    // Le clip de la vidéo au centre de l'écran s'allume
+    const centre = scrollY + innerHeight / 2;
+    document.querySelectorAll(".work").forEach((travail, i) => {
+      const actif = centre >= travail.offsetTop && centre < travail.offsetTop + travail.offsetHeight;
+      document.querySelectorAll(".clip")[i]?.classList.toggle("is-active", actif);
+    });
+  });
+}
+addEventListener("scroll", suivreDefilement, { passive: true });
+addEventListener("resize", () => { placerClips(); suivreDefilement(); });
+addEventListener("load", placerClips);
+document.fonts?.ready.then(placerClips);
 
 // Le bandeau défilant : on duplique son contenu pour une boucle sans coupure
 const piste = document.querySelector(".ticker-track");

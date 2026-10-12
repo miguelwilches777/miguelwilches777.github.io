@@ -223,3 +223,9 @@ Miguel pidió una página menos vacía, más visual y que represente las redes s
   - `--vert` #7fd49a (Green Earth)
   - `--ambre` #ffb547 (focos de Nathan Pellerin)
 - **Vídeos con fondo negro** (`"transparente": true`): el negro se funde con la página (`mix-blend-mode: screen`) y no llevan halo.
+
+### Los laterales en ordenador (≥ 64rem)
+La página se lee como un montaje:
+- **Izquierda, regla de timecode:** graduaciones finas cada 8px y marcadas cada 64px. Un **cabezal rojo** (#ff3b30, sin resplandor) baja con el scroll y muestra un timecode `HH:MM:SS:II` a 25 i/s (la página entera = 3 minutos, valor decorativo).
+- **Derecha, pista de clips:** un clip por vídeo, en el orden de `videos.json`, con los colores de acento en ciclo (rosa → cielo → verde → ámbar). Cada clip es un enlace a su vídeo. El clip del vídeo en pantalla se ilumina; su nombre aparece al pasar el ratón y, en pantallas de 90rem o más, también fijo junto al clip activo.
+- Ambos carriles se atenúan con "Lumières éteintes" y no existen en móvil.
