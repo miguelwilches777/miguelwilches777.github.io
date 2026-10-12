@@ -1,0 +1,405 @@
+/* =========================================================
+   Portfolio Miguel Moreno — "Générique de fin"
+   La page est un générique de film : fond noir, texte centré,
+   crédits en deux colonnes (rôle | nom).
+   ========================================================= */
+
+/* ---------- 1. Variables (couleurs, typo, mouvement) ---------- */
+:root {
+  --noir: #000;
+  --blanc: #f2f0ea;           /* blanc "pellicule", un peu chaud */
+  --gris: #a3a097;            /* texte secondaire (contraste 8:1 sur noir) */
+  --gris-fonce: #2b2a27;      /* fonds de chargement, séparateurs */
+
+  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+
+  --marge: 1rem;              /* marge latérale sur mobile : 16px */
+  --gouttiere: 1.25rem;       /* espace entre rôle et nom dans les crédits */
+
+  /* Courbes d'animation (Emil Kowalski) */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@media (min-width: 48rem) {
+  :root { --marge: 2.5rem; --gouttiere: 2rem; }
+}
+
+/* ---------- 2. Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  background: var(--noir);
+  color-scheme: dark;
+  scroll-behavior: smooth;
+  scrollbar-color: var(--gris-fonce) var(--noir);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--noir);
+  color: var(--blanc);
+  font-family: var(--police);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  text-align: center;
+  -webkit-font-smoothing: antialiased;
+  font-variant-numeric: tabular-nums;
+}
+
+h1, h2, h3, p, dl, dd { margin: 0; }
+
+::selection { background: var(--blanc); color: var(--noir); }
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--blanc);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Lien d'évitement pour le clavier */
+.skip {
+  position: absolute;
+  left: var(--marge);
+  top: -4rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--blanc);
+  color: var(--noir);
+  z-index: 20;
+}
+.skip:focus { top: 0.75rem; }
+
+/* ---------- 3. Barre du haut : un seul lien, Contact ---------- */
+.topbar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 10;
+  padding: max(0.75rem, env(safe-area-inset-top)) var(--marge) 0.75rem;
+  transition: opacity 600ms var(--ease-out);
+}
+
+.topbar-link {
+  display: inline-block;
+  padding: 0.5rem 0.875rem;
+  background: rgb(0 0 0 / 0.72);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 200ms ease, transform 160ms var(--ease-out);
+}
+.topbar-link:active { transform: scale(0.97); }
+
+@media (hover: hover) {
+  .topbar-link:hover { color: var(--gris); }
+}
+
+/* ---------- 4. Ouverture (présentation) ---------- */
+.opening {
+  min-height: 72svh;            /* la première vidéo apparaît déjà en bas de l'écran */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 6rem var(--marge) 3rem;
+}
+
+.opening h1 {
+  font-size: clamp(2.75rem, 12vw, 6rem);
+  font-weight: 400;
+  font-variation-settings: "wdth" 112;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.role {
+  font-size: 0.875rem;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--gris);
+  text-wrap: balance;
+}
+
+.intro {
+  max-width: 34ch;
+  margin-top: 0.75rem;
+  color: var(--gris);
+  text-wrap: pretty;
+}
+.intro strong { color: var(--blanc); font-weight: 500; }
+
+/* ---------- 5. Titres de section (comme "Distribution" dans un générique) ---------- */
+.section-title {
+  font-size: 0.9375rem;
+  font-weight: 500;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  margin-bottom: 3.5rem;
+}
+
+/* ---------- 6. Travaux ---------- */
+.works { padding: 1rem 0 2rem; }
+
+.works-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6rem;
+}
+
+@media (min-width: 48rem) {
+  .works-list { gap: 9rem; }
+}
+
+.work {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 var(--marge);
+  transition: opacity 700ms var(--ease-out);
+}
+
+/* Le cadre vidéo garde la proportion réelle (--ratio) : pas de saut à l'affichage */
+.frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: var(--ratio);
+  background: var(--gris-fonce);
+  margin: 0;
+}
+
+/* Taille selon le format : les verticales tiennent dans l'écran, les horizontales s'étalent */
+.work[data-orientation="vertical"]   .frame { width: min(100%, calc(80svh * var(--ratio))); }
+.work[data-orientation="carre"]      .frame { width: min(100%, 72svh, 40rem); }
+.work[data-orientation="horizontal"] .frame { width: min(100%, 70rem, calc(80svh * var(--ratio))); }
+
+.frame video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: var(--noir);
+}
+
+/* Le texte sous la vidéo : le crédit */
+.work-title {
+  margin-top: 2rem;
+  font-size: clamp(1.375rem, 5vw, 2rem);
+  font-weight: 400;
+  font-variation-settings: "wdth" 112;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.work-desc {
+  max-width: 40ch;
+  margin-top: 0.75rem;
+  color: var(--gris);
+  text-wrap: pretty;
+}
+
+/* ---------- 7. Crédits en deux colonnes : rôle | nom ---------- */
+.credits {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: var(--gouttiere);
+  row-gap: 0.35rem;
+  width: 100%;
+  max-width: 34rem;
+  margin-top: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.credits dt {
+  text-align: right;
+  color: var(--gris);
+  letter-spacing: 0.04em;
+}
+
+.credits dd {
+  text-align: left;
+  letter-spacing: 0.04em;
+}
+
+.credits-large {
+  margin: 0 auto;
+  row-gap: 1rem;
+  font-size: clamp(1rem, 3.6vw, 1.375rem);
+}
+.credits-large dd {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ---------- 8. Logiciels ---------- */
+.tools { padding: 9rem var(--marge) 2rem; }
+
+/* ---------- 9. Contact : le dernier carton du film ---------- */
+.contact {
+  min-height: 80svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem var(--marge) 4rem;
+}
+.contact .section-title { margin-bottom: 2rem; }
+
+.contact-lede {
+  max-width: 30ch;
+  color: var(--gris);
+  text-wrap: balance;
+}
+
+.email {
+  margin-top: 2rem;
+  font-size: clamp(1.25rem, 5.6vw, 2.75rem);
+  font-weight: 400;
+  font-variation-settings: "wdth" 100;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
+  text-decoration-color: var(--gris);
+  transition: text-decoration-color 200ms ease;
+}
+@media (hover: hover) {
+  .email:hover { text-decoration-color: var(--blanc); }
+}
+
+.contact-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.copy,
+.linkedin {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.75rem;            /* zone tactile >= 44px */
+  padding: 0.625rem 1.25rem;
+  border: 1px solid var(--gris);
+  background: transparent;
+  color: var(--blanc);
+  font: inherit;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 200ms ease, transform 160ms var(--ease-out);
+}
+.copy:active,
+.linkedin:active { transform: scale(0.97); }
+
+@media (hover: hover) {
+  .copy:hover,
+  .linkedin:hover { border-color: var(--blanc); }
+}
+
+/* Le texte du bouton change ("Adresse copiée") avec un léger flou */
+.copy-label {
+  display: inline-block;
+  transition: filter 200ms ease, opacity 200ms ease;
+}
+.copy.is-switching .copy-label { filter: blur(2px); opacity: 0.4; }
+
+.footer {
+  padding: 2rem var(--marge) max(2rem, env(safe-area-inset-bottom));
+  font-size: 0.8125rem;
+  color: var(--gris);
+  letter-spacing: 0.08em;
+}
+
+.notice { color: var(--gris); padding: 0 var(--marge); }
+
+/* ---------- 10. Mouvement ---------- */
+
+/* a) "Lumières éteintes" : quand une vidéo avec son joue, le reste s'assombrit */
+body.lights-down .work:not(.is-playing),
+body.lights-down .opening,
+body.lights-down .section-title,
+body.lights-down .tools,
+body.lights-down .contact,
+body.lights-down .topbar { opacity: 0.12; }
+
+.opening, .section-title, .tools, .contact {
+  transition: opacity 700ms var(--ease-out);
+}
+
+/* b) Apparition douce des crédits au défilement.
+   Le contenu est visible par défaut : il n'est masqué que si JavaScript tourne. */
+.js .reveal,
+.js .work-text {
+  opacity: 0.001;
+  transform: translateY(10px);
+  filter: blur(3px);
+  transition:
+    opacity 700ms var(--ease-out),
+    transform 700ms var(--ease-out),
+    filter 700ms var(--ease-out);
+}
+.js .reveal.is-visible,
+.js .work-text.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+/* c) Respecter "réduire les animations" du téléphone */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+  .js .reveal,
+  .js .work-text { opacity: 1; transform: none; filter: none; }
+}
+
+/* ---------- 11. Bouton pause des boucles ---------- */
+.loop-toggle {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  min-height: 2.75rem;
+  padding: 0 0.875rem;
+  border: 1px solid rgb(242 240 234 / 0.35);
+  background: rgb(0 0 0 / 0.6);
+  color: var(--blanc);
+  font: inherit;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: border-color 200ms ease, transform 160ms var(--ease-out);
+}
+.loop-toggle:active { transform: scale(0.97); }
+@media (hover: hover) {
+  .loop-toggle:hover { border-color: var(--blanc); }
+}
+
+/* ---------- 12. Confort tactile et ancres ---------- */
+html { -webkit-tap-highlight-color: transparent; }
+a, button, video { touch-action: manipulation; }
+#travaux, #contact { scroll-margin-top: 4rem; }

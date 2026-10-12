@@ -1,0 +1,12 @@
+# Originales: demasiado pesados para GitHub (se quedan en tu ordenador)
+videos/
+
+# Herramientas de Claude / impeccable (no forman parte de la web)
+.claude/
+.impeccable/
+skills-lock.json
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

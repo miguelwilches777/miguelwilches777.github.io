@@ -1,0 +1,62 @@
+[
+  {
+    "archivo": "media/pub-origine.mp4",
+    "miniatura": "media/pub-origine.jpg",
+    "titulo": "Origine Toilettage",
+    "tipo": "Publicité",
+    "descripcion": "Publicité pour un salon de toilettage et de bien-être canin à Bruz.",
+    "software": ["Premiere Pro"],
+    "formato": "9:16",
+    "modo": "sonido"
+  },
+  {
+    "archivo": "media/sur-le-rythme.mp4",
+    "miniatura": "media/sur-le-rythme.jpg",
+    "titulo": "Sur le rythme",
+    "tipo": "Réseaux sociaux",
+    "descripcion": "Vidéo rythmique pour les réseaux sociaux, montée sur le rythme d’une musique.",
+    "software": ["After Effects", "Premiere Pro"],
+    "formato": "9:16",
+    "modo": "sonido"
+  },
+  {
+    "archivo": "media/origine-logo.mp4",
+    "miniatura": "media/origine-logo.jpg",
+    "titulo": "Origine, du logo au téléphone",
+    "tipo": "Animation de logo",
+    "descripcion": "Le logo Origine se transforme en téléphone qui présente le site et le compte Instagram @origine.petcare.",
+    "software": ["After Effects"],
+    "formato": "1:1",
+    "modo": "bucle"
+  },
+  {
+    "archivo": "media/origine-spot-ia.mp4",
+    "miniatura": "media/origine-spot-ia.jpg",
+    "titulo": "Origine, l’art du soin",
+    "tipo": "Spot publicitaire",
+    "descripcion": "Spot en motion design pour Origine, réalisé avec des outils d’intelligence artificielle.",
+    "software": ["Outils d’IA"],
+    "formato": "9:16",
+    "modo": "sonido"
+  },
+  {
+    "archivo": "media/green-earth-digital.mp4",
+    "miniatura": "media/green-earth-digital.jpg",
+    "titulo": "Green Earth Digital",
+    "tipo": "Animation de logo",
+    "descripcion": "Animation de logo pour Green Earth Digital, une marque green tech.",
+    "software": ["After Effects"],
+    "formato": "1280:910",
+    "modo": "bucle"
+  },
+  {
+    "archivo": "media/nathan-pellerin.mp4",
+    "miniatura": "media/nathan-pellerin.jpg",
+    "titulo": "Nathan Pellerin",
+    "tipo": "Titre animé",
+    "descripcion": "Un nom révélé sous les projecteurs d’une scène.",
+    "software": ["After Effects"],
+    "formato": "16:9",
+    "modo": "bucle"
+  }
+]
