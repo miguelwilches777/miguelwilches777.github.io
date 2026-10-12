@@ -1,89 +1,102 @@
 # Portfolio de Miguel Moreno
 
-Web de portafolio de montador de vídeo, hecha con **HTML, CSS y JavaScript simples** (sin frameworks) y publicada con **GitHub Pages**.
+Web: **https://miguelwilches777.github.io**
 
-## Estructura del proyecto
+Hecha con **HTML, CSS y JavaScript simples** (sin frameworks) y publicada con **GitHub Pages**.
+
+## Las carpetas
 
 ```
 portafolio/
-├── index.html        → estructura de la página (textos, secciones)
-├── css/style.css     → todo el diseño (colores, tipografía, animaciones)
-├── js/main.js        → lee videos.json y crea las fichas de los vídeos
-├── videos.json       → LA LISTA DE VÍDEOS (lo que editarás normalmente)
-├── media/            → vídeos comprimidos + miniaturas (esto sí se publica)
-├── videos/           → tus originales (NO se publican, ver .gitignore)
-└── comprimir.ps1     → script para comprimir un vídeo y crear su miniatura
+├── videos/           → TUS ORIGINALES. Se quedan en tu PC, no se publican.
+├── media/            → vídeos comprimidos + miniaturas. ESTO es lo que se ve en la web.
+├── videos.json       → LA LISTA de vídeos de la web (título, texto, orden...).
+├── comprimir.ps1     → script que convierte un original en un vídeo para la web.
+├── index.html        → los textos fijos (presentación, logiciels, contact).
+├── css/style.css     → el diseño.
+└── js/main.js        → el código que lee videos.json y monta los vídeos.
 ```
 
-## Cómo añadir un vídeo nuevo (3 pasos)
+**Regla de oro:** para tocar los vídeos solo necesitas `videos/`, `comprimir.ps1` y `videos.json`.
 
-### 1. Mete el original en `videos/`
+---
 
-Copia tu archivo exportado (por ejemplo `mi clip.mp4`) en la carpeta `videos/`.
-Esa carpeta no se sube a GitHub: los originales pesan demasiado (GitHub rechaza archivos de más de 100 MB).
+## A. Añadir un vídeo nuevo
 
-### 2. Comprímelo
+### Paso 1. Copia el original en `videos/`
 
-Abre PowerShell en la carpeta del proyecto y ejecuta:
+Exporta tu vídeo como siempre (Premiere, After, DaVinci) y copia el archivo en la carpeta `videos/`.
+
+### Paso 2. Comprímelo
+
+1. Abre la carpeta del proyecto en el Explorador de Windows.
+2. Haz clic en la barra de dirección, escribe `powershell` y pulsa Enter. Se abre una ventana azul ya en la carpeta correcta.
+3. Escribe esto, cambiando el nombre del archivo:
 
 ```powershell
 .\comprimir.ps1 -Entrada "videos\mi clip.mp4" -Nombre mi-clip
 ```
 
-Esto crea dos archivos en `media/`:
-- `mi-clip.mp4`: el vídeo comprimido para web (H.264, lado largo de 1280 px como máximo, con arranque rápido)
-- `mi-clip.jpg`: la miniatura que se ve antes de darle a play
+- `-Entrada`: el archivo original, entre comillas.
+- `-Nombre`: cómo se llamará en la web. **Sin espacios ni acentos** (ej. `clip-rap`, `pub-nike-2026`).
 
-Opciones útiles:
-- `-Bucle`: para animaciones cortas (logos, títulos). Quita el sonido.
-- `-Miniatura 4.5`: elige el segundo exacto de la miniatura (por defecto, un tercio del vídeo).
+Cuando termine verás algo como `Listo: media\mi-clip.mp4 (85 MB -> 9 MB) y media\mi-clip.jpg`.
+Se han creado 2 archivos en `media/`: el vídeo comprimido y su **miniatura** (la imagen que se ve antes de darle a play).
 
-Usa un `-Nombre` sin espacios ni acentos (ej. `pub-nike`, `clip-rap-2026`).
+Opciones extra:
+- Si es una **animación corta sin sonido** (logo, título) que debe repetirse sola, añade `-Bucle`:
+  `.\comprimir.ps1 -Entrada "videos\logo.mp4" -Nombre logo -Bucle`
+- Si la miniatura no te gusta, elige el segundo exacto con `-Miniatura`:
+  `.\comprimir.ps1 -Entrada "videos\mi clip.mp4" -Nombre mi-clip -Miniatura 4.5`
+  (vuelve a ejecutarlo: sobrescribe los archivos anteriores).
 
-> Si PowerShell dice que no puede ejecutar scripts, ejecuta una vez:
+> Si sale un error rojo diciendo que no se pueden ejecutar scripts, escribe esto **una sola vez** y repite:
 > `Set-ExecutionPolicy -Scope CurrentUser RemoteSigned`
 
-### 3. Añádelo a `videos.json`
+### Paso 3. Añádelo a `videos.json`
 
-Abre `videos.json` y copia una entrada existente. Pégala donde quieras que aparezca (el orden del archivo es el orden en la web) y cambia los datos:
+Abre `videos.json` con el Bloc de notas o VS Code. Verás una lista de "fichas", una por vídeo, así:
 
 ```json
-{
-  "archivo": "media/mi-clip.mp4",
-  "miniatura": "media/mi-clip.jpg",
-  "titulo": "Nombre del proyecto",
-  "tipo": "Clip musical",
-  "descripcion": "Una frase que explique el proyecto.",
-  "software": ["Premiere Pro", "After Effects"],
-  "formato": "16:9",
-  "modo": "sonido"
-}
+  {
+    "archivo": "media/mi-clip.mp4",
+    "miniatura": "media/mi-clip.jpg",
+    "titulo": "Nom du projet",
+    "tipo": "Clip musical",
+    "descripcion": "Une phrase qui explique le projet.",
+    "formato": "16:9",
+    "modo": "sonido"
+  },
 ```
+
+1. Copia una ficha entera, desde `{` hasta `},`.
+2. Pégala donde quieras que aparezca. **El orden del archivo es el orden en la web:** arriba del todo = primer vídeo.
+3. Cambia los datos:
 
 | Campo | Qué poner |
 |---|---|
-| `archivo` | ruta del vídeo comprimido en `media/` |
-| `miniatura` | ruta de la miniatura en `media/` |
-| `titulo` | título que se ve en grande |
-| `tipo` | tipo de trabajo (Publicité, Clip, Animation de logo…) |
+| `archivo` | `media/` + el `-Nombre` que usaste + `.mp4` |
+| `miniatura` | `media/` + el `-Nombre` que usaste + `.jpg` |
+| `titulo` | el título, en francés |
+| `tipo` | qué es: `Publicité`, `Clip musical`, `Animation de logo`, `Réseaux sociaux`… |
 | `descripcion` | una frase en francés |
-| `software` | lista de programas usados |
-| `formato` | proporción ancho:alto: `9:16` vertical, `16:9` horizontal, `1:1` cuadrado (o el tamaño real, ej. `1280:910`) |
-| `modo` | `"sonido"` = reproductor con sonido · `"bucle"` = se reproduce solo, sin sonido, en bucle |
+| `formato` | `9:16` vertical (TikTok, Reels) · `16:9` horizontal (YouTube) · `1:1` cuadrado · `4:5` Instagram |
+| `modo` | `"sonido"` = con reproductor y sonido · `"bucle"` = se reproduce solo, sin sonido, en bucle |
 
-⚠️ Cuidado con las comas: cada entrada `{ ... }` va separada por una coma, pero la última no lleva coma detrás.
+⚠️ **Las comas:** entre una ficha y la siguiente va una coma `},`. La **última** ficha de la lista termina en `}` **sin coma**. Las comillas `"` son obligatorias. Si algo de esto falla, la web muestra «Les vidéos n’ont pas pu être chargées». En ese caso revisa las comas.
 
-## Ver la web en tu ordenador
+### Paso 4. Míralo en tu ordenador antes de publicar
 
-`videos.json` se carga con JavaScript, así que abrir `index.html` con doble clic no funciona: hace falta un pequeño servidor local.
+En la ventana de PowerShell:
 
 ```powershell
 npx http-server -p 8080
 ```
 
-Luego abre http://localhost:8080 en el navegador.
+Abre **http://localhost:8080** en el navegador. Para pararlo, pulsa `Ctrl + C`.
+(Abrir `index.html` con doble clic **no** funciona: los vídeos no cargan sin este pequeño servidor.)
 
-## Publicar los cambios
+### Paso 5. Publícalo
 
 ```powershell
 git add .
@@ -91,14 +104,32 @@ git commit -m "Añade vídeo mi-clip"
 git push
 ```
 
-GitHub Pages actualiza la web en uno o dos minutos.
+En 1–2 minutos aparece en https://miguelwilches777.github.io (si no lo ves, recarga con `Ctrl + F5`).
+
+---
+
+## B. Cambiar un vídeo que ya está
+
+| Quiero… | Qué hago |
+|---|---|
+| **Cambiar un texto** (título, descripción, tipo) | Edita esa ficha en `videos.json` → pasos 4 y 5 |
+| **Cambiar el orden** | En `videos.json`, corta la ficha entera y pégala en otro sitio (¡cuidado con las comas!) → pasos 4 y 5 |
+| **Poner una versión nueva del vídeo** | Copia el nuevo original en `videos/` y comprímelo con **el mismo `-Nombre`** que el antiguo: se sobrescribe. `videos.json` no cambia → pasos 4 y 5 |
+| **Cambiar solo la miniatura** | Repite el paso 2 con `-Miniatura` y el segundo que quieras → pasos 4 y 5 |
+| **Quitar un vídeo** | Borra su ficha de `videos.json` (y si quieres, sus dos archivos de `media/`) → pasos 4 y 5 |
+
+## C. Cambiar los textos fijos
+
+La presentación, la lista de logiciels y el contacto están en `index.html`. Busca el texto con `Ctrl + F` y cámbialo con cuidado de no borrar las etiquetas `<...>`. Luego, pasos 4 y 5.
+
+---
 
 ## Cómo funciona (para aprender)
 
-- **index.html**: las secciones (présentation, travaux, logiciels, contact). La lista de vídeos está vacía: la rellena JavaScript.
+- **index.html**: las secciones. La lista de vídeos (`<div id="liste-travaux">`) está vacía: la rellena JavaScript.
 - **js/main.js**:
   1. `fetch("videos.json")` lee la lista y `creerFiche()` crea el HTML de cada vídeo.
-  2. Solo un vídeo con sonido suena a la vez; mientras suena, la página se oscurece (`lights-down`).
-  3. Los vídeos en bucle solo se reproducen cuando son visibles (`IntersectionObserver`), para ahorrar batería y datos.
+  2. Solo suena un vídeo a la vez; mientras suena, la página se oscurece (`lights-down`).
+  3. Los vídeos en bucle solo se reproducen cuando se ven en pantalla (`IntersectionObserver`), para ahorrar batería y datos.
 - **css/style.css**: los colores y tamaños están en variables al principio (`:root`). Cambia `--blanc` o `--gris` y cambia toda la web.
 - Las animaciones respetan la opción del móvil "reducir movimiento" (`prefers-reduced-motion`).

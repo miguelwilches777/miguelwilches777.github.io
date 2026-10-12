@@ -97,14 +97,12 @@ function creerFiche(video) {
     <p class="work-desc"></p>
     <dl class="credits">
       <dt>Type</dt><dd class="c-type"></dd>
-      <dt>${video.software.length > 1 ? "Logiciels" : "Logiciel"}</dt><dd class="c-soft" translate="no"></dd>
       <dt>Format</dt><dd class="c-format"></dd>
     </dl>`;
   // textContent (et pas innerHTML) pour les données : plus sûr
   texte.querySelector(".work-title").textContent = video.titulo;
   texte.querySelector(".work-desc").textContent = video.descripcion;
   texte.querySelector(".c-type").textContent = video.tipo;
-  texte.querySelector(".c-soft").textContent = video.software.join(" · ");
   texte.querySelector(".c-format").textContent = format.label;
 
   article.append(figure, texte);
