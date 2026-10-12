@@ -20,7 +20,11 @@ const revealObserver = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
 
-document.querySelectorAll(".reveal").forEach((el) => revealObserver.observe(el));
+// Le lien "Contact" du haut disparaît quand la section Contact est à l'écran
+const contact = document.getElementById("contact");
+new IntersectionObserver(([entry]) => {
+  document.body.classList.toggle("contact-visible", entry.isIntersecting);
+}, { threshold: 0.2 }).observe(contact);
 
 // ---------- 1. Charger la liste des vidéos ----------
 async function chargerVideos() {
@@ -60,6 +64,7 @@ function creerFiche(video) {
   const article = document.createElement("article");
   article.className = "work";
   article.dataset.orientation = format.orientation;
+  article.dataset.modo = video.modo;
   article.style.setProperty("--ratio", format.ratio);
 
   // Le cadre + la vidéo
@@ -69,7 +74,8 @@ function creerFiche(video) {
   const el = document.createElement("video");
   el.src = video.archivo;
   el.poster = video.miniatura;
-  el.preload = "none";
+  // Vidéos avec son : on charge juste les infos (durée) ; boucles : rien avant d'être visibles
+  el.preload = enBoucle ? "none" : "metadata";
   el.playsInline = true;
   el.setAttribute("aria-label", `Vidéo : ${video.titulo}`);
 
@@ -85,9 +91,6 @@ function creerFiche(video) {
   }
 
   figure.append(el);
-
-  // Les boucles de plus de 5 s doivent pouvoir être mises en pause
-  if (enBoucle && !reduceMotion) figure.append(creerBoutonPause(el));
 
   // Le texte : titre, description, crédits
   const texte = document.createElement("div");
@@ -105,6 +108,16 @@ function creerFiche(video) {
   texte.querySelector(".c-type").textContent = video.tipo;
   texte.querySelector(".c-format").textContent = format.label;
 
+  // Les boucles de plus de 5 s doivent pouvoir être mises en pause :
+  // le bouton est une ligne de plus dans les crédits ("Boucle | Pause")
+  if (enBoucle && !reduceMotion) {
+    const dt = document.createElement("dt");
+    dt.textContent = "Boucle";
+    const dd = document.createElement("dd");
+    dd.append(creerBoutonPause(el));
+    texte.querySelector(".credits").append(dt, dd);
+  }
+
   article.append(figure, texte);
 
   brancherVideo(el, article);
@@ -115,10 +128,10 @@ function creerFiche(video) {
 function creerBoutonPause(el) {
   const bouton = document.createElement("button");
   bouton.type = "button";
-  bouton.className = "loop-toggle";
+  bouton.className = "loop-toggle text-action";
   bouton.setAttribute("aria-pressed", "false");
   bouton.setAttribute("aria-label", "Mettre la boucle en pause");
-  bouton.textContent = "Pause";
+  bouton.textContent = "Mettre en pause";
 
   bouton.addEventListener("click", () => {
     const enPause = el.dataset.pauseUtilisateur === "oui";
@@ -131,7 +144,7 @@ function creerBoutonPause(el) {
     }
     bouton.setAttribute("aria-pressed", String(!enPause));
     bouton.setAttribute("aria-label", enPause ? "Mettre la boucle en pause" : "Relancer la boucle");
-    bouton.textContent = enPause ? "Pause" : "Lecture";
+    bouton.textContent = enPause ? "Mettre en pause" : "Relancer";
   });
   return bouton;
 }

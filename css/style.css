@@ -11,7 +11,9 @@
   --gris: #a3a097;            /* texte secondaire (contraste 8:1 sur noir) */
   --gris-fonce: #2b2a27;      /* fonds de chargement, séparateurs */
 
-  --police: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  /* Deux voix : une serif de titre de film (Bodoni) + une sans lisible (Hanken) */
+  --titre: "Bodoni Moda", Didot, "Bodoni 72", Georgia, serif;
+  --police: "Hanken Grotesk", "Helvetica Neue", Arial, sans-serif;
 
   --marge: 1rem;              /* marge latérale sur mobile : 16px */
   --gouttiere: 1.25rem;       /* espace entre rôle et nom dans les crédits */
@@ -87,11 +89,18 @@ a {
   padding: max(0.75rem, env(safe-area-inset-top)) var(--marge) 0.75rem;
   transition: opacity 600ms var(--ease-out);
 }
+/* Inutile quand on est déjà sur la section Contact */
+body.contact-visible .topbar {
+  opacity: 0;
+  pointer-events: none;
+}
 
 .topbar-link {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;            /* zone tactile >= 44px */
   padding: 0.5rem 0.875rem;
-  background: rgb(0 0 0 / 0.72);
+  background: var(--noir);
   font-size: 0.8125rem;
   font-weight: 500;
   letter-spacing: 0.18em;
@@ -117,13 +126,16 @@ a {
 }
 
 .opening h1 {
-  font-size: clamp(2.75rem, 12vw, 6rem);
-  font-weight: 400;
-  font-variation-settings: "wdth" 112;
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  font-family: var(--titre);
+  font-size: clamp(3.25rem, 14vw, 6rem);
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
   text-wrap: balance;
+}
+.opening h1 em {
+  font-style: italic;
+  font-weight: 400;
 }
 
 .role {
@@ -198,12 +210,11 @@ a {
 /* Le texte sous la vidéo : le crédit */
 .work-title {
   margin-top: 2rem;
-  font-size: clamp(1.375rem, 5vw, 2rem);
+  font-family: var(--titre);
+  font-size: clamp(1.75rem, 6.5vw, 2.75rem);
+  font-style: italic;
   font-weight: 400;
-  font-variation-settings: "wdth" 112;
-  letter-spacing: 0.08em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  line-height: 1.1;
   text-wrap: balance;
 }
 
@@ -242,9 +253,11 @@ a {
   row-gap: 1rem;
   font-size: clamp(1rem, 3.6vw, 1.375rem);
 }
+.credits-large dt { align-self: center; }
 .credits-large dd {
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-family: var(--titre);
+  font-size: 1.35em;
+  line-height: 1.2;
 }
 
 /* ---------- 8. Logiciels ---------- */
@@ -269,10 +282,10 @@ a {
 
 .email {
   margin-top: 2rem;
-  font-size: clamp(1.25rem, 5.6vw, 2.75rem);
+  font-family: var(--titre);
+  font-size: clamp(1.375rem, 6vw, 3rem);
+  font-style: italic;
   font-weight: 400;
-  font-variation-settings: "wdth" 100;
-  letter-spacing: 0.01em;
   overflow-wrap: anywhere;
   text-decoration-color: var(--gris);
   transition: text-decoration-color 200ms ease;
@@ -289,14 +302,13 @@ a {
   margin-top: 2rem;
 }
 
-.copy,
-.linkedin {
+/* Actions en texte, sans cadre (comme une ligne de générique) */
+.text-action {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   min-height: 2.75rem;            /* zone tactile >= 44px */
-  padding: 0.625rem 1.25rem;
-  border: 1px solid var(--gris);
+  padding: 0 0.75rem;
+  border: 0;
   background: transparent;
   color: var(--blanc);
   font: inherit;
@@ -304,16 +316,17 @@ a {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-color: var(--gris-fonce);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.5em;
   cursor: pointer;
-  transition: border-color 200ms ease, transform 160ms var(--ease-out);
+  transition: text-decoration-color 200ms ease, transform 160ms var(--ease-out);
 }
-.copy:active,
-.linkedin:active { transform: scale(0.97); }
+.text-action:active { transform: scale(0.97); }
 
 @media (hover: hover) {
-  .copy:hover,
-  .linkedin:hover { border-color: var(--blanc); }
+  .text-action:hover { text-decoration-color: var(--blanc); }
 }
 
 /* Le texte du bouton change ("Adresse copiée") avec un léger flou */
@@ -348,7 +361,6 @@ body.lights-down .topbar { opacity: 0.12; }
 
 /* b) Apparition douce des crédits au défilement.
    Le contenu est visible par défaut : il n'est masqué que si JavaScript tourne. */
-.js .reveal,
 .js .work-text {
   opacity: 0.001;
   transform: translateY(10px);
@@ -358,7 +370,6 @@ body.lights-down .topbar { opacity: 0.12; }
     transform 700ms var(--ease-out),
     filter 700ms var(--ease-out);
 }
-.js .reveal.is-visible,
 .js .work-text.is-visible {
   opacity: 1;
   transform: none;
@@ -372,31 +383,21 @@ body.lights-down .topbar { opacity: 0.12; }
     transition-duration: 0.01ms !important;
     animation-duration: 0.01ms !important;
   }
-  .js .reveal,
   .js .work-text { opacity: 1; transform: none; filter: none; }
 }
 
-/* ---------- 11. Bouton pause des boucles ---------- */
-.loop-toggle {
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.5rem;
-  min-height: 2.75rem;
-  padding: 0 0.875rem;
-  border: 1px solid rgb(242 240 234 / 0.35);
-  background: rgb(0 0 0 / 0.6);
-  color: var(--blanc);
-  font: inherit;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: border-color 200ms ease, transform 160ms var(--ease-out);
+/* ---------- 11. Bouton pause des boucles : une ligne des crédits ---------- */
+.credits .loop-toggle {
+  padding: 0;
+  margin-block: -0.75rem;         /* garde 44px de zone tactile sans espacer la ligne */
+  font-size: inherit;
+  letter-spacing: 0.04em;
+  text-transform: none;
 }
-.loop-toggle:active { transform: scale(0.97); }
-@media (hover: hover) {
-  .loop-toggle:hover { border-color: var(--blanc); }
+
+/* Les boucles (logos, titres) restent plus petites que les vidéos avec son */
+.work[data-modo="bucle"][data-orientation="horizontal"] .frame {
+  width: min(100%, 44rem, calc(70svh * var(--ratio)));
 }
 
 /* ---------- 12. Confort tactile et ancres ---------- */
