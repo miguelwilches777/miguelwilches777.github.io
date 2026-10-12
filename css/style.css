@@ -404,3 +404,54 @@ body.lights-down .topbar { opacity: 0.12; }
 html { -webkit-tap-highlight-color: transparent; }
 a, button, video { touch-action: manipulation; }
 #travaux, #contact { scroll-margin-top: 4rem; }
+
+/* ---------- 13. Ordinateur : on utilise la largeur ----------
+   Les vidéos verticales passent à deux colonnes autour de l'axe central :
+   la vidéo d'un côté, son générique de l'autre, en alternance. */
+@media (min-width: 64rem) {
+  .opening { padding-top: 8rem; }
+  .intro { max-width: 46ch; }
+
+  .work[data-orientation="vertical"] {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 4rem;
+    align-items: center;
+    width: 100%;
+    max-width: 76rem;
+    margin-inline: auto;
+  }
+  .work[data-orientation="vertical"] .frame { justify-self: end; }
+
+  .work[data-orientation="vertical"] .work-text {
+    justify-self: start;
+    max-width: 30rem;
+    text-align: left;
+  }
+  .work[data-orientation="vertical"] .work-title { margin-top: 0; }
+  .work[data-orientation="vertical"] .work-desc { font-size: 1.1875rem; }
+  .work[data-orientation="vertical"] .credits { font-size: 1rem; }
+
+  /* Les crédits s'alignent sur le texte : rôle puis valeur */
+  .work[data-orientation="vertical"] .credits {
+    grid-template-columns: auto 1fr;
+    column-gap: var(--gouttiere);
+  }
+  .work[data-orientation="vertical"] .credits dt { text-align: left; }
+
+  /* Une vidéo verticale sur deux : la vidéo à droite, le texte à gauche */
+  .work[data-orientation="vertical"]:nth-child(even) .frame {
+    order: 2;
+    justify-self: start;
+  }
+  .work[data-orientation="vertical"]:nth-child(even) .work-text {
+    order: 1;
+    justify-self: end;
+    text-align: right;
+  }
+  .work[data-orientation="vertical"]:nth-child(even) .credits {
+    grid-template-columns: 1fr auto;
+  }
+  .work[data-orientation="vertical"]:nth-child(even) .credits dt { text-align: right; }
+  .work[data-orientation="vertical"]:nth-child(even) .credits dd { text-align: right; }
+}
