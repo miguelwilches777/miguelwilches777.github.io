@@ -942,3 +942,28 @@ body::before {
   .topbar { z-index: 11; }
   .topbar-link { width: 6.75rem; justify-content: center; background: transparent; }
 }
+
+/* =========================================================
+   20. Formes arrondies : la barre mobile devient une pilule
+   ========================================================= */
+.topbar-link { border-radius: 999px; }
+
+@media (max-width: 63.99rem) {
+  .rail-clips {
+    --retrait: 1rem;                  /* marge intérieure : la piste s'éloigne des bords arrondis */
+    border-radius: 999px;
+  }
+  .rail-clips::before {
+    left: var(--retrait);
+    right: calc(var(--retrait) + var(--zone-contact));
+  }
+  .clip {
+    left: calc(var(--retrait) + var(--debut) * (100% - 2 * var(--retrait) - var(--zone-contact)));
+    width: calc(var(--duree) * (100% - 2 * var(--retrait) - var(--zone-contact)));
+  }
+  .playhead {
+    left: 1rem;
+    translate: calc(var(--progress, 0) * (100vw - 2 * var(--marge) - 6.75rem - 2rem)) 0;
+  }
+  .playhead span { border-radius: 999px; padding: 0.125rem 0.5rem; }
+}

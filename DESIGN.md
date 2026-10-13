@@ -237,3 +237,4 @@ Los mismos dos elementos, en horizontal, en **una sola barra negra** fija arriba
 
 ### Dos columnas también en móvil
 Los vídeos verticales también van en dos columnas en móvil: vídeo al 54 % del ancho y texto al 46 %, alternando lado. Título Bodoni más compacto (hasta 2.25rem), créditos apilados (rol en pequeñas mayúsculas, valor debajo). Los horizontales siguen a todo el ancho.
+- **Forma:** la barra móvil y el enlace "Contact" son píldoras (`border-radius: 999px`); la pista se separa 1rem de los extremos redondos.
