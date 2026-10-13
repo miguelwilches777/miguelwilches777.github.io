@@ -234,3 +234,6 @@ La página se lee como un montaje:
 Los mismos dos elementos, en horizontal, en una barra negra fija arriba a la izquierda (al lado de "Contact", misma altura de 44px), como en las apps de montaje del móvil:
 - Pista con un clip de color por vídeo; el del vídeo en pantalla se ilumina y engorda. Tocar un clip lleva a su vídeo (zona táctil de toda la altura de la barra).
 - Cabezal rojo vertical que avanza de izquierda a derecha con el scroll; el timecode va debajo y lo sigue sin salirse de la barra.
+
+### Dos columnas también en móvil
+Los vídeos verticales también van en dos columnas en móvil: vídeo al 54 % del ancho y texto al 46 %, alternando lado. Título Bodoni más compacto (hasta 2.25rem), créditos apilados (rol en pequeñas mayúsculas, valor debajo). Los horizontales siguen a todo el ancho.

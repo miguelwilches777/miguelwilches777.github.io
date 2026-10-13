@@ -860,3 +860,53 @@ body::before {
     font-variant-numeric: tabular-nums;
   }
 }
+
+/* =========================================================
+   18. Mobile : vidéos verticales sur deux colonnes aussi
+   Vidéo un peu plus large que la moitié, texte à côté, en alternance.
+   Les crédits passent l'un sous l'autre (rôle en petit, valeur dessous).
+   ========================================================= */
+@media (max-width: 63.99rem) {
+  .work[data-orientation="vertical"] {
+    display: grid;
+    grid-template-columns: 54fr 46fr;
+    column-gap: 1rem;
+    align-items: center;
+  }
+  .work[data-orientation="vertical"] .frame { width: 100%; }
+
+  .work[data-orientation="vertical"] .work-text { text-align: left; min-width: 0; }
+  .work[data-orientation="vertical"] .work-title {
+    margin-top: 0;
+    font-size: clamp(1.375rem, 6.4vw, 2.25rem);
+    line-height: 1.08;
+    overflow-wrap: break-word;
+  }
+  .work[data-orientation="vertical"] .work-desc {
+    margin-top: 0.625rem;
+    font-size: clamp(0.875rem, 3.7vw, 1.0625rem);
+    line-height: 1.5;
+  }
+
+  /* Crédits empilés : TYPE / Publicité */
+  .work[data-orientation="vertical"] .credits {
+    grid-template-columns: 1fr;
+    row-gap: 0;
+    margin-top: 1rem;
+    font-size: clamp(0.875rem, 3.6vw, 1rem);
+  }
+  .work[data-orientation="vertical"] .credits dt {
+    text-align: inherit;
+    margin-top: 0.625rem;
+    font-size: 0.6875rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .work[data-orientation="vertical"] .credits dd { text-align: inherit; }
+  .work[data-orientation="vertical"] .credits .loop-toggle { margin-block: -0.5rem; }
+
+  /* Une sur deux : vidéo à droite, texte aligné à droite */
+  .work[data-orientation="vertical"]:nth-child(even) .frame { order: 2; }
+  .work[data-orientation="vertical"]:nth-child(even) .work-text { order: 1; text-align: right; }
+  .work[data-orientation="vertical"]:nth-child(even) { grid-template-columns: 46fr 54fr; }
+}
