@@ -967,3 +967,20 @@ body::before {
   }
   .playhead span { border-radius: 999px; padding: 0.125rem 0.5rem; }
 }
+
+/* =========================================================
+   21. Mobile : barre plus longue (plus près des bords, Contact plus compact)
+   ========================================================= */
+@media (max-width: 63.99rem) {
+  .rail { left: 0.5rem; right: calc(0.5rem + 6rem); }
+  .rail-clips { --zone-contact: 6rem; right: 0.5rem; }
+  .topbar { padding-right: 0.5rem; }
+  .topbar-link {
+    width: 6rem;
+    padding-inline: 0.5rem;
+    letter-spacing: 0.14em;
+  }
+  .playhead {
+    translate: calc(var(--progress, 0) * (100vw - 1rem - 6rem - 2rem)) 0;
+  }
+}

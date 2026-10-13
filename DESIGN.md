@@ -238,3 +238,5 @@ Los mismos dos elementos, en horizontal, en **una sola barra negra** fija arriba
 ### Dos columnas también en móvil
 Los vídeos verticales también van en dos columnas en móvil: vídeo al 54 % del ancho y texto al 46 %, alternando lado. Título Bodoni más compacto (hasta 2.25rem), créditos apilados (rol en pequeñas mayúsculas, valor debajo). Los horizontales siguen a todo el ancho.
 - **Forma:** la barra móvil y el enlace "Contact" son píldoras (`border-radius: 999px`); la pista se separa 1rem de los extremos redondos.
+- **Pista completa:** además de un clip de color por vídeo, hay clips grises (#6f6c66) para Présentation (al principio), Logiciels y Contact (al final), así la timeline va de punta a punta. El cabezal marca el punto de la página que está en el centro de la pantalla, el mismo criterio que enciende el clip activo: siempre caen juntos.
+- **Barra móvil más larga:** a 8px de los bordes; "Contact" ocupa 6rem a la derecha.

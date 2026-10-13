@@ -99,29 +99,39 @@ const IMAGES_PAR_SECONDE = 25;
 function creerPistes(videos) {
   const piste = document.getElementById("pistes");
   if (!piste) return;
-  const clips = videos.map((video, i) => {
+
+  const creerClip = (cible, nom, couleur) => {
     const clip = document.createElement("a");
     clip.className = "clip";
-    clip.href = `#travail-${i + 1}`;
-    clip.dataset.nom = video.titulo;
-    clip.setAttribute("aria-label", `Aller à : ${video.titulo}`);
-    clip.style.setProperty("--couleur", COULEURS[i % COULEURS.length]);
+    clip.href = `#${cible}`;
+    clip.dataset.cible = cible;
+    clip.dataset.nom = nom;
+    clip.setAttribute("aria-label", `Aller à : ${nom}`);
+    clip.style.setProperty("--couleur", couleur);
     return clip;
-  });
-  piste.replaceChildren(...clips);
+  };
+
+  // Les sections (en gris) encadrent les vidéos (en couleur) : la piste est pleine
+  const gris = "#6f6c66";
+  piste.replaceChildren(
+    creerClip("presentation", "Présentation", gris),
+    ...videos.map((video, i) =>
+      creerClip(`travail-${i + 1}`, video.titulo, COULEURS[i % COULEURS.length])),
+    creerClip("logiciels", "Logiciels", gris),
+    creerClip("contact", "Contact", gris),
+  );
   placerClips();
   suivreDefilement();
 }
 
-// Position de chaque clip = position de sa vidéo dans la hauteur de la page
+// Position de chaque clip = position de sa section dans la hauteur de la page
 function placerClips() {
   const hauteur = document.documentElement.scrollHeight;
-  document.querySelectorAll(".clip").forEach((clip, i) => {
-    const travail = document.getElementById(`travail-${i + 1}`);
-    if (!travail) return;
-    const haut = travail.offsetTop;
-    clip.style.setProperty("--debut", (haut / hauteur).toFixed(4));
-    clip.style.setProperty("--duree", (travail.offsetHeight / hauteur).toFixed(4));
+  document.querySelectorAll(".clip").forEach((clip) => {
+    const cible = document.getElementById(clip.dataset.cible);
+    if (!cible) return;
+    clip.style.setProperty("--debut", (cible.offsetTop / hauteur).toFixed(4));
+    clip.style.setProperty("--duree", (cible.offsetHeight / hauteur).toFixed(4));
   });
 }
 
@@ -132,8 +142,11 @@ function suivreDefilement() {
   enAttente = true;
   requestAnimationFrame(() => {
     enAttente = false;
-    const max = document.documentElement.scrollHeight - innerHeight;
-    const progres = max > 0 ? Math.min(1, scrollY / max) : 0;
+    // La tête de lecture marque le point de la page qui est au centre de l'écran :
+    // elle tombe ainsi toujours dans le clip allumé.
+    const hauteur = document.documentElement.scrollHeight;
+    const centre = scrollY + innerHeight / 2;
+    const progres = Math.min(1, Math.max(0, centre / hauteur));
     document.querySelector(".playhead")?.style.setProperty("--progress", progres.toFixed(4));
 
     // Timecode HH:MM:SS:II (25 images par seconde)
@@ -143,11 +156,12 @@ function suivreDefilement() {
     const tc = document.getElementById("timecode");
     if (tc) tc.textContent = `00:${deux(Math.floor(s / 60))}:${deux(s % 60)}:${deux(images % IMAGES_PAR_SECONDE)}`;
 
-    // Le clip de la vidéo au centre de l'écran s'allume
-    const centre = scrollY + innerHeight / 2;
-    document.querySelectorAll(".work").forEach((travail, i) => {
-      const actif = centre >= travail.offsetTop && centre < travail.offsetTop + travail.offsetHeight;
-      document.querySelectorAll(".clip")[i]?.classList.toggle("is-active", actif);
+    // Le clip de la section au centre de l'écran s'allume
+    document.querySelectorAll(".clip").forEach((clip) => {
+      const cible = document.getElementById(clip.dataset.cible);
+      const actif = Boolean(cible) &&
+        centre >= cible.offsetTop && centre < cible.offsetTop + cible.offsetHeight;
+      clip.classList.toggle("is-active", actif);
     });
   });
 }
