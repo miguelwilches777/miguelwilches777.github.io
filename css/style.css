@@ -910,3 +910,35 @@ body::before {
   .work[data-orientation="vertical"]:nth-child(even) .work-text { order: 1; text-align: right; }
   .work[data-orientation="vertical"]:nth-child(even) { grid-template-columns: 46fr 54fr; }
 }
+
+/* =========================================================
+   19. Mobile : timeline et Contact réunis dans une seule barre
+   La barre noire de la piste s'étend jusqu'au bord droit ;
+   le lien Contact vient se poser dans son extrémité.
+   ========================================================= */
+@media (max-width: 63.99rem) {
+  .rail-clips {
+    --zone-contact: 6.75rem;          /* largeur réservée au lien Contact */
+    right: var(--marge);
+  }
+  .rail-clips::before { right: calc(0.5rem + var(--zone-contact)); }
+  .clip {
+    left: calc(0.5rem + var(--debut) * (100% - 1rem - var(--zone-contact)));
+    width: calc(var(--duree) * (100% - 1rem - var(--zone-contact)));
+  }
+  /* Fine séparation entre la timeline et Contact */
+  .rail-clips::after {
+    content: "";
+    position: absolute;
+    right: var(--zone-contact);
+    top: 0.75rem;
+    bottom: 0.75rem;
+    width: 1px;
+    background: #4a4843;
+  }
+
+  /* Le lien Contact fait partie de la barre : il reste toujours là */
+  body.contact-visible .topbar { opacity: 1; pointer-events: auto; }
+  .topbar { z-index: 11; }
+  .topbar-link { width: 6.75rem; justify-content: center; background: transparent; }
+}

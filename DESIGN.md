@@ -231,7 +231,7 @@ La página se lee como un montaje:
 - Ambos carriles se atenúan con "Lumières éteintes" y no existen en móvil.
 
 ### La timeline en móvil (< 64rem)
-Los mismos dos elementos, en horizontal, en una barra negra fija arriba a la izquierda (al lado de "Contact", misma altura de 44px), como en las apps de montaje del móvil:
+Los mismos dos elementos, en horizontal, en **una sola barra negra** fija arriba que incluye también el enlace "Contact" a la derecha (separado por una línea fina de 1px), como en las apps de montaje del móvil:
 - Pista con un clip de color por vídeo; el del vídeo en pantalla se ilumina y engorda. Tocar un clip lleva a su vídeo (zona táctil de toda la altura de la barra).
 - Cabezal rojo vertical que avanza de izquierda a derecha con el scroll; el timecode va debajo y lo sigue sin salirse de la barra.
 
