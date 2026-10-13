@@ -229,3 +229,8 @@ La página se lee como un montaje:
 - **Izquierda, regla de timecode:** graduaciones finas cada 8px y marcadas cada 64px. Un **cabezal rojo** (#ff3b30, sin resplandor) baja con el scroll y muestra un timecode `HH:MM:SS:II` a 25 i/s (la página entera = 3 minutos, valor decorativo).
 - **Derecha, pista de clips:** un clip por vídeo, en el orden de `videos.json`, con los colores de acento en ciclo (rosa → cielo → verde → ámbar). Cada clip es un enlace a su vídeo. El clip del vídeo en pantalla se ilumina; su nombre aparece al pasar el ratón y, en pantallas de 90rem o más, también fijo junto al clip activo.
 - Ambos carriles se atenúan con "Lumières éteintes" y no existen en móvil.
+
+### La timeline en móvil (< 64rem)
+Los mismos dos elementos, en horizontal, en una barra negra fija arriba a la izquierda (al lado de "Contact", misma altura de 44px), como en las apps de montaje del móvil:
+- Pista con un clip de color por vídeo; el del vídeo en pantalla se ilumina y engorda. Tocar un clip lleva a su vídeo (zona táctil de toda la altura de la barra).
+- Cabezal rojo vertical que avanza de izquierda a derecha con el scroll; el timecode va debajo y lo sigue sin salirse de la barra.

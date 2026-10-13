@@ -777,3 +777,86 @@ body::before {
     font-size: clamp(1rem, 1.05vw, 1.125rem);
   }
 }
+
+/* =========================================================
+   17. Mobile : la même timeline, à l'horizontale en haut de l'écran
+   (comme dans les applis de montage sur téléphone).
+   Mêmes éléments que les rails de l'ordinateur, disposés autrement.
+   ========================================================= */
+@media (max-width: 63.99rem) {
+  .rail {
+    display: block;
+    position: fixed;
+    top: max(0.75rem, env(safe-area-inset-top));
+    left: var(--marge);
+    right: calc(var(--marge) + 6.75rem);   /* laisse la place au lien Contact */
+    height: 2.75rem;
+    z-index: 9;
+    transition: opacity 700ms var(--ease-out);
+  }
+  body.lights-down .rail { opacity: 0.12; }
+
+  /* Piste : fond noir comme le lien Contact, clips posés dessus */
+  .rail-clips {
+    background: var(--noir);
+    border-radius: 2px;
+  }
+  .rail-clips::before {            /* la piste vide */
+    content: "";
+    position: absolute;
+    left: 0.5rem;
+    right: 0.5rem;
+    top: 50%;
+    height: 0.375rem;
+    translate: 0 -50%;
+    background: rgb(242 240 234 / 0.06);
+    border-radius: 3px;
+  }
+  .clip {
+    position: absolute;
+    top: 50%;
+    left: calc(0.5rem + var(--debut) * (100% - 1rem));
+    width: calc(var(--duree) * (100% - 1rem));
+    min-width: 0.75rem;
+    height: 0.375rem;
+    translate: 0 -50%;
+    border-radius: 3px;
+    background: var(--couleur);
+    opacity: 0.4;
+    transition: opacity 300ms var(--ease-out), height 300ms var(--ease-out);
+  }
+  .clip::before {                  /* zone tactile : toute la hauteur de la barre */
+    content: "";
+    position: absolute;
+    inset: -1.2rem 0;
+  }
+  .clip.is-active { opacity: 1; height: 0.625rem; }
+
+  /* Tête de lecture : trait rouge qui avance de gauche à droite */
+  .rail-tc { pointer-events: none; z-index: 10; }   /* au-dessus de la piste */
+  .playhead {
+    position: absolute;
+    top: 0.25rem;
+    bottom: 0.25rem;
+    left: 0.5rem;
+    width: 2px;
+    background: #ff3b30;
+    translate: calc(var(--progress, 0) * (100vw - 2 * var(--marge) - 6.75rem - 1rem)) 0;
+    will-change: translate;
+  }
+  .playhead span {                 /* timecode sous la tête, qui la suit */
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    left: 0;
+    /* aligné à gauche au début, à droite à la fin : il ne sort jamais de la barre */
+    translate: calc(var(--progress, 0) * -100%) 0;
+    white-space: nowrap;
+    padding: 0.125rem 0.375rem;
+    background: var(--noir);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--gris);
+    font-variant-numeric: tabular-nums;
+  }
+}
