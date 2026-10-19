@@ -134,3 +134,16 @@ La presentación, la lista de logiciels y el contacto están en `index.html`. Bu
   3. Los vídeos en bucle solo se reproducen cuando se ven en pantalla (`IntersectionObserver`), para ahorrar batería y datos.
 - **css/style.css**: los colores y tamaños están en variables al principio (`:root`). Cambia `--blanc` o `--gris` y cambia toda la web.
 - Las animaciones respetan la opción del móvil "reducir movimiento" (`prefers-reduced-motion`).
+
+---
+
+## D. Cambiar o añadir un canal (sección «Chaînes»)
+
+Los canales están escritos directamente en `index.html`, dentro de `<section class="chaines">`. Cada canal es un bloque `<article class="chaine"> … </article>`:
+
+- **Nombre:** dentro de `<h3 class="chaine-nom">`.
+- **@usuario:** dentro de `<p class="chaine-pseudo">`.
+- **Frase:** dentro de `<p class="chaine-desc">` (en francés).
+- **Botones:** cada `<a class="reseau" href="ENLACE">` es un botón. Cambia el `href` por el enlace de tu perfil. El icono lo decide la clase: `ico-yt` (YouTube), `ico-ig` (Instagram), `ico-tt` (TikTok).
+
+Para **añadir un canal**, copia un `<article class="chaine"> … </article>` entero, pégalo debajo y cambia los datos. Para el color del punto usa `d1` (rosa), `d2` (cielo), `d3` (verde) o `d4` (ámbar).

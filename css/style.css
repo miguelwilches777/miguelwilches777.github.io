@@ -360,6 +360,7 @@ body.lights-down .section-title,
 body.lights-down .tools,
 body.lights-down .contact,
 body.lights-down .ticker,
+body.lights-down .chaines,
 body.lights-down .topbar { opacity: 0.12; }
 
 .opening, .section-title, .tools, .contact {
@@ -984,3 +985,100 @@ body::before {
     translate: calc(var(--progress, 0) * (100vw - 1rem - 6rem - 2rem)) 0;
   }
 }
+
+/* =========================================================
+   22. Chaînes : mes propres chaînes (YouTube, Instagram, TikTok)
+   ========================================================= */
+.chaines {
+  padding: 9rem var(--marge) 2rem;
+  transition: opacity 700ms var(--ease-out);
+}
+.chaines .section-title { margin-bottom: 1rem; }
+.chaines-lede {
+  max-width: 34ch;
+  margin: 0 auto 3.5rem;
+  color: var(--gris);
+  text-wrap: balance;
+}
+
+.chaines-grid {
+  display: grid;
+  gap: 4rem;
+  max-width: 68rem;
+  margin: 0 auto;
+}
+@media (min-width: 48rem) {
+  .chaines-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+}
+
+.chaine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.chaine-nom {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  margin: 0;
+  font-family: var(--titre);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(2.25rem, 7vw, 3.5rem);
+  line-height: 1.05;
+  text-wrap: balance;
+}
+.chaine-nom .dot { width: 0.625rem; height: 0.625rem; flex: none; }
+.chaine-pseudo {
+  margin-top: 0.5rem;
+  color: var(--gris);
+  font-size: 0.9375rem;
+  letter-spacing: 0.04em;
+}
+.chaine-desc {
+  max-width: 34ch;
+  margin-top: 1rem;
+  color: var(--gris);
+  text-wrap: pretty;
+}
+
+/* Boutons des réseaux : pilules avec le logo officiel (Simple Icons) */
+.chaine-liens {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.625rem;
+  margin-top: 1.75rem;
+}
+.reseau {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-height: 2.75rem;
+  padding: 0 1.125rem 0 0.875rem;
+  border-radius: 999px;
+  background: rgb(242 240 234 / 0.07);
+  color: var(--blanc);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: background-color 200ms ease, transform 160ms var(--ease-out);
+}
+.reseau:active { transform: scale(0.97); }
+@media (hover: hover) {
+  .reseau:hover { background: rgb(242 240 234 / 0.14); }
+}
+
+.ico {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: var(--icone) center / contain no-repeat;
+          mask: var(--icone) center / contain no-repeat;
+}
+.ico-yt { --icone: url("../icons/youtube.svg"); }
+.ico-ig { --icone: url("../icons/instagram.svg"); }
+.ico-tt { --icone: url("../icons/tiktok.svg"); }

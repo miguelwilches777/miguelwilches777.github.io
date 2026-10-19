@@ -240,3 +240,6 @@ Los vídeos verticales también van en dos columnas en móvil: vídeo al 54 % de
 - **Forma:** la barra móvil y el enlace "Contact" son píldoras (`border-radius: 999px`); la pista se separa 1rem de los extremos redondos.
 - **Pista completa:** además de un clip de color por vídeo, hay clips grises (#6f6c66) para Présentation (al principio), Logiciels y Contact (al final), así la timeline va de punta a punta. El cabezal marca el punto de la página que está en el centro de la pantalla, el mismo criterio que enciende el clip activo: siempre caen juntos.
 - **Barra móvil más larga:** a 8px de los bordes; "Contact" ocupa 6rem a la derecha.
+
+## Sección "Chaînes" (canales propios)
+Entre "Logiciels" y "Contact". Un bloque por canal: nombre en Bodoni cursiva grande con un punto de acento (rosa el primero, cielo el segundo), @usuario en gris, una frase en francés y botones-píldora por red social (fondo blanco al 7 %, 14 % al pasar el ratón, sin borde, 44px de alto) con el logo oficial monocromo de Simple Icons (`icons/*.svg`, aplicado como máscara para que tome el color del texto). Dos columnas desde 48rem, una en móvil. Tiene su clip gris "Chaînes" en la timeline.

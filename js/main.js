@@ -118,6 +118,7 @@ function creerPistes(videos) {
     ...videos.map((video, i) =>
       creerClip(`travail-${i + 1}`, video.titulo, COULEURS[i % COULEURS.length])),
     creerClip("logiciels", "Logiciels", gris),
+    creerClip("chaines", "Chaînes", gris),
     creerClip("contact", "Contact", gris),
   );
   placerClips();
