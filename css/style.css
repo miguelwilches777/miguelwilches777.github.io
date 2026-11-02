@@ -1010,6 +1010,13 @@ body::before {
 @media (min-width: 48rem) {
   .chaines-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
 }
+@media (min-width: 48rem) {
+  .chaines-grid > .chaine:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+    justify-self: center;
+    width: calc((100% - 4rem) / 2);
+  }
+}
 
 .chaine {
   display: flex;
