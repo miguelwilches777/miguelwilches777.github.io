@@ -1,5 +1,14 @@
 [
   {
+    "archivo": "media/pacari-rosas.mp4",
+    "miniatura": "media/pacari-rosas.jpg",
+    "titulo": "Pacari Rosas",
+    "tipo": "Publicité",
+    "descripcion": "Publicité pour le chocolat Pacari Rosas : un pétale s’envole d’un champ de roses et révèle la tablette. Vidéo IA, montage et son.",
+    "formato": "9:16",
+    "modo": "sonido"
+  },
+  {
     "archivo": "media/pub-origine.mp4",
     "miniatura": "media/pub-origine.jpg",
     "titulo": "Origine Toilettage",
